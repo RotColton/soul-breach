@@ -1,15 +1,11 @@
 package com.romina
 
-import io.ktor.serialization.kotlinx.json.*
+
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
-import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.websocket.*
-import io.ktor.websocket.*
-import java.time.Duration
-import kotlin.time.Duration.Companion.seconds
+import io.ktor.server.plugins.swagger.*
 
 fun Application.configureRouting() {
     routing {
@@ -18,5 +14,7 @@ fun Application.configureRouting() {
         }
         // Static plugin. Try to access `/static/index.html`
         staticResources("/static", "static")
+
+        swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
     }
 }

@@ -1,0 +1,216 @@
+openapi: 3.1.0
+info:
+  title: Soul Breach - Backend Technical Test
+  description: |-
+    API specification for Soul Breach, a turn-based RPG gacha game. 
+    This documentation follows an **API-First** approach and defines the contracts for 
+    Player management, Creature progression, and Combat logic.
+  contact:
+    email: maromidomingo@gmial.com
+  version: 1.0.12
+servers:
+  - url: http://localhost:8080
+paths:
+  /players:
+    post:
+      tags:
+        - player
+      summary: Create a new game
+      requestBody:
+        description: Create a new game with a initial creature
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlayerRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /players/{playerId}/creatures:
+    post:
+      tags:
+        - Player
+      summary: Add a new creature to a player
+      operationId: addCreatureToPlayer
+      parameters:
+        - name: playerId
+          in: path
+          required: true
+          description: Unique identifier of the player
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCreatureRequest'
+      responses:
+        '201':
+          description: Creature added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Creature'
+        '404':
+          description: Player not found
+  /combats:
+    post:
+      tags:
+        - combat
+      summary: Create a new combat
+      requestBody:
+        description: Create a new combat
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCombatRequest'
+        required: true
+
+
+components:
+  schemas:
+    Player:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          examples: [Juan]
+        creatures:
+          type: array
+          item:
+            $ref: '#/components/schemas/Creature'
+    Creature:
+      requied:
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        ownerid:
+          type: string
+        class:
+          type: string
+          enum:
+            - defender
+            - enchanter
+            - warrior
+          examples: [warrior]
+        level:
+          type: integer
+          examples: [0]
+        experience:
+          type: integer
+          examples: [3]
+        attributes:
+          type: object
+          item:
+            $ref: '#/components/Attributes'
+    Attributes:
+      type: object
+      properties:
+        hp:
+          type: integer
+          examples: [100]
+        attack:
+          type: integer
+          examples: [25]
+        speed:
+          type: integer
+          examples: [10]
+    CreatePlayerRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 20
+          examples: [Ikarus]
+    AddCreatureRequest:
+      type: object
+      required: [name, class]
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 20
+          examples: [Amund]
+        class:
+          type: string
+          enum:
+            - defender
+            - enchanter
+            - warrior
+          examples: [defender]
+    CreateCombatRequest:
+      type: object
+      required: [playerId]
+      properties:
+        playerId:
+          type: string
+          format: uuid
+          examples: [550e8400-e29b-41d4-a716-446655440000]
+    CombatResponse:
+      type: object
+      properties:
+        combatId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [IN_PROGRESS, FINISHED]
+        turnOrder:
+          type: array
+          items:
+            type: string
+          description: "List of creature IDs sorted by Speed (Requirement 3.2.1)"
+        creaturesState:
+          type: array
+          items:
+            $ref: '#/components/schemas/Creature'
+          description: "Initial state of all participating creatures (Player's and Enemy's)"
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+
