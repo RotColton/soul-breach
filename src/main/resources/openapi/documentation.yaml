@@ -87,13 +87,13 @@ components:
   schemas:
     Player:
       required:
-        - name
+        - playerName
       type: object
       properties:
         id:
           type: string
           format: uuid
-        name:
+        playerName:
           type: string
           examples: [Juan]
         creatures:
@@ -101,22 +101,24 @@ components:
           item:
             $ref: '#/components/schemas/Creature'
     Creature:
-      requied:
-        - name
+      required:
+        - creatureName
       type: object
       properties:
         id:
           type: string
           format: uuid
-        ownerid:
+        creatureName:
+          type: string
+        owner:
           type: string
         class:
           type: string
           enum:
-            - defender
-            - enchanter
-            - warrior
-          examples: [warrior]
+            - DEFENDER
+            - ENCHANTER
+            - WARRIOR
+          examples: [DEFENDER]
         level:
           type: integer
           examples: [0]
@@ -141,29 +143,29 @@ components:
           examples: [10]
     CreatePlayerRequest:
       type: object
-      required: [name]
+      required: [playerName]
       properties:
-        name:
+        playerName:
           type: string
           minLength: 3
           maxLength: 20
           examples: [Ikarus]
     AddCreatureRequest:
       type: object
-      required: [name, class]
+      required: [creatureName, creatureClass]
       properties:
-        name:
+        creatureName:
           type: string
           minLength: 3
           maxLength: 20
           examples: [Amund]
-        class:
+        creatureClass:
           type: string
           enum:
-            - defender
-            - enchanter
-            - warrior
-          examples: [defender]
+            - DEFENDER
+            - ENCHANTER
+            - WARRIOR
+          examples: [DEFENDER]
     CreateCombatRequest:
       type: object
       required: [playerId]
