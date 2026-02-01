@@ -1,12 +1,11 @@
 package com.romina.application.domain.service
 
-import com.romina.application.domain.model.Creature
 import com.romina.application.domain.model.CreatureClass
 import com.romina.application.domain.model.Player
 import com.romina.application.domain.ports.`in`.AddCreatureToPlayerUseCase
 import com.romina.application.domain.ports.`in`.CreatePlayerUseCase
-import com.romina.infrastructure.driven.rest.routes.player.request.AddCreatureRequest
-import com.romina.infrastructure.driven.rest.routes.player.request.CreatePlayerRequest
+import com.romina.infrastructure.driver.rest.routes.player.request.AddCreatureRequest
+import com.romina.infrastructure.driver.rest.routes.player.request.CreatePlayerRequest
 
 
 class PlayerService : CreatePlayerUseCase, AddCreatureToPlayerUseCase {

@@ -1,4 +1,4 @@
-package com.romina.infrastructure.driven.rest.routes.player.reponse
+package com.romina.infrastructure.driver.rest.routes.player.reponse
 
 import com.romina.application.domain.dto.CreatureDTO
 import com.romina.application.domain.dto.toDTO

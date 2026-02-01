@@ -1,4 +1,4 @@
-package com.romina.infrastructure.driven.rest.routes.player.request
+package com.romina.infrastructure.driver.rest.routes.player.request
 
 import com.romina.application.domain.model.CreatureClass
 import kotlinx.serialization.Serializable

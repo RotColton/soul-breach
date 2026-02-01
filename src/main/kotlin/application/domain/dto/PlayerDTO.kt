@@ -6,5 +6,4 @@ import kotlinx.serialization.Serializable
 data class PlayerDTO(
     private val playerId : String,
     private val name : String,
-    private val creatures: MutableList<CreatureDTO>
-)
+    private val creatures: MutableList<CreatureDTO>)

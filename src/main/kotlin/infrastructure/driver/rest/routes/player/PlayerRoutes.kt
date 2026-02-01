@@ -1,4 +1,4 @@
-package com.romina.infrastructure.driven.rest.routes.player
+package com.romina.infrastructure.driver.rest.routes.player
 
 import com.romina.application.domain.ports.`in`.AddCreatureToPlayerUseCase
 import com.romina.application.domain.ports.`in`.CreatePlayerUseCase
