@@ -10,7 +10,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 
 fun Route.addCreatureRoute(useCase: AddCreatureToPlayerUseCase) {
-    post("players/{playerId}/creatures"){
+    post("players/{id}/creatures"){
         val body =  call.receive<AddCreatureRequest>()
         call.respond(HttpStatusCode.Created, useCase.addCreature(body).toResponse())
     }

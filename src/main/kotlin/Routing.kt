@@ -20,7 +20,8 @@ fun Application.configureRouting() {
 
         playerRoutes(
             createUseCase = playerService,
-            addCreatureUseCase = playerService
+            addCreatureUseCase = playerService,
+            getPlayerDetailsUseCase = playerService
         )
     }
 }
