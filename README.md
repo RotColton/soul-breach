@@ -5,8 +5,8 @@ Scalable backend for the **Soul Breach** universe, a creature-collection RPG. Bu
 ---
 
 ## Core Technologies
-* **Language:** [Kotlin 2.1.0](https://kotlinlang.org/)
-* **Framework:** [Ktor](https://ktor.io/)
+* **Language:** [Kotlin 2.3.0](https://kotlinlang.org/)
+* **Framework:** [Ktor 3.4.0](https://ktor.io/)
 * **Documentation:** [Swagger UI / OpenAPI](https://swagger.io/)
 * **Testing:** [JUnit 5](https://junit.org/junit5/)
 
@@ -21,10 +21,10 @@ The project is organized into layers to ensure decoupling and testability:
     * **`model`**: Domain entities and Value Objects.
     * **`port`**: Inbound (Use Cases) and Outbound (Repository interfaces) ports.
     * **`service`**: Implementation of the business logic.
-    * **`dto`**: Data Transfer Objects for internal/external communication.
 * **`infrastructure`**: Technical implementations and low-level details.
   * **`adapters/driver/rest`**: REST routes organized by domain features.
   * **`adapters/driven/storage`**: Persistence implementations (Repositories).
+  * **`adapters/dto`**: Data Transfer Objects for internal/external communication.
 
 ---
 
@@ -37,11 +37,12 @@ src/main/kotlin/com/soulbreach/
 │       ├── model/         # Domain Entities (e.g., Player, Creature)
 │       ├── port/          # UseCase interfaces & Repository Ports
 │       ├── service/       # Application logic implementation
-│       ├── dto/           # Request/Response DTOs & Commands
 ├── infrastructure/        
 │   ├── adapters/
-│   │   ├── driver/rest/   # Domain-grouped routes (e.g., player, combat)
-│   │   └── driven/storage/# Persistence adapters (InMemory, SQL)
+│       ├── dto/           # Request/Response DTOs & Commands
+│       ├── driver/rest/   # Domain-grouped routes (e.g., player, combat)
+│       └── driven/storage/# Persistence adapters (InMemory, SQL)
+
 ```
 ## Installation & Setup
 

@@ -1,8 +1,8 @@
 package com.romina
 
 
-import com.romina.application.domain.service.PlayerService
-import com.romina.infrastructure.driver.rest.routes.player.playerRoutes
+import com.romina.player.application.domain.service.PlayerService
+import com.romina.player.infrastructure.adapters.driver.rest.routes.player.playerRoutes
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.routing.*
