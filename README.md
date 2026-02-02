@@ -5,8 +5,8 @@ Scalable backend for the **Soul Breach** universe, a creature-collection RPG. Bu
 ---
 
 ## Core Technologies
-* **Language:** [Kotlin 2.1.0](https://kotlinlang.org/)
-* **Framework:** [Ktor](https://ktor.io/)
+* **Language:** [Kotlin 2.3.0](https://kotlinlang.org/)
+* **Framework:** [Ktor 3.4.0](https://ktor.io/)
 * **Documentation:** [Swagger UI / OpenAPI](https://swagger.io/)
 * **Testing:** [JUnit 5](https://junit.org/junit5/)
 
