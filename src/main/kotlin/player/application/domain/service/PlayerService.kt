@@ -7,18 +7,18 @@ import com.romina.player.application.domain.ports.`in`.AddCreatureToPlayerUseCas
 import com.romina.player.application.domain.ports.`in`.CreatePlayerUseCase
 import com.romina.player.application.domain.ports.`in`.GetPlayerDetailsUseCase
 import com.romina.player.application.domain.ports.`in`.PlayerDetailsQuery
-import com.romina.player.infrastructure.adapters.driver.rest.routes.player.request.AddCreatureRequest
-import com.romina.player.infrastructure.adapters.driver.rest.routes.player.request.CreatePlayerRequest
+import com.romina.player.application.domain.ports.out.PlayerCommandPort
+import com.romina.player.infrastructure.drive.request.AddCreatureRequest
+import com.romina.player.infrastructure.drive.request.CreatePlayerRequest
+import java.util.UUID
 
 
-class PlayerService : CreatePlayerUseCase, AddCreatureToPlayerUseCase, GetPlayerDetailsUseCase{
+class PlayerService(
+    private val playerCommandPort: PlayerCommandPort
+) : CreatePlayerUseCase, AddCreatureToPlayerUseCase, GetPlayerDetailsUseCase{
 
-    override fun createPlayer(command: CreatePlayerRequest): Player {
-       // TODO("persistence not yet implemented")
-        // TODO: implement choice initial Creature logic
-        val player = Player(name = command.playerName)
-        player.addCreature(creatureName = "Amund", creatureClass = Defender)
-        return player
+    override fun createPlayer(command: CreatePlayerRequest): UUID {
+        return playerCommandPort.createPlayer(command.playerName)
     }
 
     override fun addCreature(command: AddCreatureRequest): Player {

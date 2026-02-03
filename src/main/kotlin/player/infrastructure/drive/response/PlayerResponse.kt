@@ -1,7 +1,7 @@
-package com.romina.player.infrastructure.adapters.driver.rest.routes.player.reponse
+package com.romina.player.infrastructure.drive.response
 
-import com.romina.player.infrastructure.adapters.driver.rest.dto.CreatureDTO
-import com.romina.player.infrastructure.adapters.driver.rest.dto.toDTO
+import com.romina.player.infrastructure.drive.dto.CreatureDTO
+import com.romina.player.infrastructure.drive.dto.toDTO
 import com.romina.player.application.domain.model.Player
 import kotlinx.serialization.Serializable
 

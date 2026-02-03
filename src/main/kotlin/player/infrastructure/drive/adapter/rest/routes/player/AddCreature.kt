@@ -1,8 +1,8 @@
-package com.romina.player.infrastructure.adapters.driver.rest.routes.player
+package com.romina.player.infrastructure.drive.adapter.rest.routes.player
 
 import com.romina.player.application.domain.ports.`in`.AddCreatureToPlayerUseCase
-import com.romina.player.infrastructure.adapters.driver.rest.routes.player.reponse.toResponse
-import com.romina.player.infrastructure.adapters.driver.rest.routes.player.request.AddCreatureRequest
+import com.romina.player.infrastructure.drive.response.toResponse
+import com.romina.player.infrastructure.drive.request.AddCreatureRequest
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond

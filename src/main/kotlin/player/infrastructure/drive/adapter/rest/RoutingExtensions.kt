@@ -1,4 +1,4 @@
-package com.romina.player.infrastructure.adapters.driver.rest
+package com.romina.player.infrastructure.drive.adapter.rest
 
 import io.ktor.server.application.ApplicationCall
 import java.util.UUID

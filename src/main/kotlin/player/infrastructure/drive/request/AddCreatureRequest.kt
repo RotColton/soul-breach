@@ -1,4 +1,4 @@
-package com.romina.player.infrastructure.adapters.driver.rest.routes.player.request
+package com.romina.player.infrastructure.drive.request
 
 
 import kotlinx.serialization.Serializable

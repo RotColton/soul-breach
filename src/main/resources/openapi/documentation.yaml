@@ -24,12 +24,14 @@ paths:
               $ref: '#/components/schemas/CreatePlayerRequest'
         required: true
       responses:
-        '200':
-          description: Successful operation
+        '201':
+          description: Player created successfully. Returns the new player's unique identifier.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Player'
+                type: string
+                format: uuid
+                example: "550e8400-e29b-41d4-a716-446655440000"
         '400':
           description: Invalid input
         '422':
