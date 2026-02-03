@@ -49,7 +49,7 @@ paths:
       summary: Add a new creature to a player
       operationId: addCreatureToPlayer
       parameters:
-        - name: playerId
+        - name: id
           in: path
           required: true
           description: Unique identifier of the player
@@ -100,7 +100,7 @@ paths:
   /combats:
     post:
       tags:
-        - combat
+        - Combat
       summary: Create a new combat
       requestBody:
         description: Create a new combat

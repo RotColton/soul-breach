@@ -1,7 +1,7 @@
 package com.romina
 
-import com.romina.player.infrastructure.driven.adapter.persistence.CreaturesTable
-import com.romina.player.infrastructure.driven.adapter.persistence.PlayersTable
+import com.romina.player.infrastructure.driven.adapter.persistence.creatures.CreatureTable
+import com.romina.player.infrastructure.driven.adapter.persistence.players.PlayerTable
 import io.ktor.server.application.*
 import io.ktor.server.config.ApplicationConfig
 import org.jetbrains.exposed.v1.jdbc.Database
@@ -20,6 +20,6 @@ fun Application.configureDatabases(config: ApplicationConfig) {
     )
 
     transaction(database) {
-        SchemaUtils.create(PlayersTable, CreaturesTable)
+        SchemaUtils.create(PlayerTable, CreatureTable)
     }
 }

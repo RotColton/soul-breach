@@ -1,4 +1,4 @@
-package com.romina.player.infrastructure.drive.dto
+package com.romina.player.infrastructure.drive.response.dto
 
 import com.romina.player.application.domain.model.Player
 import kotlinx.serialization.Serializable

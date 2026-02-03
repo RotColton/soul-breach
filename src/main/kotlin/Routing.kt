@@ -1,16 +1,16 @@
 package com.romina
 
 
+import com.romina.player.application.domain.service.CreatureService
 import com.romina.player.application.domain.service.PlayerService
 import com.romina.player.infrastructure.drive.adapter.rest.routes.player.playerRoutes
-import com.romina.player.infrastructure.driven.adapter.persistence.PlayerPostgresAdapter
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.routing.*
 import io.ktor.server.plugins.swagger.*
 
 
-fun Application.configureRouting(playerService : PlayerService) {
+fun Application.configureRouting(playerService : PlayerService, creatureService: CreatureService) {
 
     routing {
         staticResources("/static", "static")
@@ -19,7 +19,7 @@ fun Application.configureRouting(playerService : PlayerService) {
 
         playerRoutes(
             createUseCase = playerService,
-            addCreatureUseCase = playerService,
+            addCreatureUseCase = creatureService,
             getPlayerDetailsUseCase = playerService
         )
     }

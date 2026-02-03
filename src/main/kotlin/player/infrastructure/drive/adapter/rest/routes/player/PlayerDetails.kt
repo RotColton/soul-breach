@@ -2,7 +2,7 @@ package com.romina.player.infrastructure.drive.adapter.rest.routes.player
 
 import com.romina.player.application.domain.ports.`in`.GetPlayerDetailsUseCase
 import com.romina.player.application.domain.ports.`in`.PlayerDetailsQuery
-import com.romina.player.infrastructure.drive.dto.toDTO
+import com.romina.player.infrastructure.drive.response.dto.toDTO
 import com.romina.player.infrastructure.drive.adapter.rest.getUUID
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respond

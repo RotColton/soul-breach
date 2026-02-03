@@ -6,5 +6,5 @@ import java.util.UUID
 data class AddCreatureToPlayerCommand(
     val playerId : UUID,
     val creatureName: String,
-    val creatureClass: CreatureClass
+    val creatureClass: String
 )

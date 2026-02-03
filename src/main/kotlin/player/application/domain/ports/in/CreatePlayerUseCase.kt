@@ -4,5 +4,5 @@ import com.romina.player.infrastructure.drive.request.CreatePlayerRequest
 import java.util.UUID
 
 interface CreatePlayerUseCase {
-    fun createPlayer(command: CreatePlayerRequest) : UUID;
+    suspend fun createPlayer(command: CreatePlayerCommand) : UUID;
 }

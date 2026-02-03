@@ -1,4 +1,4 @@
-package com.romina.player.infrastructure.drive.dto
+package com.romina.player.infrastructure.drive.response.dto
 
 import com.romina.player.application.domain.model.Creature
 import kotlinx.serialization.Serializable
@@ -16,7 +16,7 @@ data class CreatureDTO(
 fun Creature.toDTO() = CreatureDTO(
     id = id.toString(),
     name = name,
-    creatureClass = creatureClass.getClassName(),
+    creatureClass = creatureClass.name,
     level = level,
     xp = xp,
     attributes = attributes.toDTO()

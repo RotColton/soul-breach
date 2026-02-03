@@ -7,8 +7,10 @@ data class Creature (
     val id: UUID = UUID.randomUUID(),
     val name: String,
     val owner: UUID,
-    val creatureClass: CreatureClass,
-    var level: Int,
-    var xp: Int,
+    val creatureClass: CreatureClassName,
+    var level: Int = 0,
+    var xp: Int = 0,
     val attributes: ElementalsAttributes
-)
+) {
+
+}
