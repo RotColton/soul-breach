@@ -23,7 +23,7 @@ The project is organized into layers to ensure decoupling and testability:
     * **`service`**: Implementation of the business logic.
 * **`infrastructure`**: Technical implementations and low-level details.
   * **`adapters/driver/rest`**: REST routes organized by domain features.
-  * **`adapters/driven/storage`**: Persistence implementations (Repositories).
+  * **`adapters/driven/persistence`**: Persistence implementations (Repositories).
   * **`adapters/dto`**: Data Transfer Objects for internal/external communication.
 
 ---
@@ -34,14 +34,14 @@ The project is organized into layers to ensure decoupling and testability:
 src/main/kotlin/com/soulbreach/
 ├── application/                         
 │   ├── domain/            
-│       ├── model/         # Domain Entities (e.g., Player, Creature)
-│       ├── port/          # UseCase interfaces & Repository Ports
-│       ├── service/       # Application logic implementation
+│       ├── model/             # Domain Entities (e.g., Player, Creature)
+│       ├── port/              # UseCase interfaces & Repository Ports
+│       ├── service/           # Application logic implementation
 ├── infrastructure/        
 │   ├── adapters/
-│       ├── dto/           # Request/Response DTOs & Commands
-│       ├── driver/rest/   # Domain-grouped routes (e.g., player, combat)
-│       └── driven/storage/# Persistence adapters (InMemory, SQL)
+│       ├── dto/               # Request/Response DTOs & Commands
+│       ├── driver/rest/       # Domain-grouped routes (e.g., player, combat)
+│       └── driven/persistence # Persistence adapters (InMemory, SQL)
 
 ```
 ## Installation & Setup

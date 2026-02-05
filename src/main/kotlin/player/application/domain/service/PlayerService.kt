@@ -14,15 +14,15 @@ class PlayerService(
 
     ) : CreatePlayerUseCase, GetPlayerDetailsUseCase{
 
-    //TODO: REFACTOR -> call Player constructor
     override suspend fun createPlayer(command: CreatePlayerCommand): UUID {
+        //TODO: separate create logic
         val player = Player(
             name = command.playerName
         )
-        return playerPort.createPlayer(player)
+        return playerPort.save(player)
     }
 
     override suspend fun getPlayerDetails(query: PlayerDetailsQuery): Player {
-        return playerPort.getPlayerDetails(query.playerId)
+        return playerPort.findById(query.playerId)
     }
 }
