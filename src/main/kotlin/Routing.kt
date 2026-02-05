@@ -1,6 +1,8 @@
 package com.romina
 
 
+import com.romina.combat.application.domain.service.CombatService
+import com.romina.combat.infrastructure.drive.adapter.rest.routes.combat.combatRoutes
 import com.romina.player.application.domain.service.CreatureService
 import com.romina.player.application.domain.service.PlayerService
 import com.romina.player.infrastructure.drive.adapter.rest.routes.player.playerRoutes
@@ -10,7 +12,11 @@ import io.ktor.server.routing.*
 import io.ktor.server.plugins.swagger.*
 
 
-fun Application.configureRouting(playerService : PlayerService, creatureService: CreatureService) {
+fun Application.configureRouting(
+    playerService : PlayerService,
+    creatureService: CreatureService,
+    combatService: CombatService
+){
 
     routing {
         staticResources("/static", "static")
@@ -22,6 +28,7 @@ fun Application.configureRouting(playerService : PlayerService, creatureService:
             addCreatureUseCase = creatureService,
             getPlayerDetailsUseCase = playerService
         )
+        combatRoutes(combatService)
     }
 }
 

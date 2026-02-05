@@ -1,5 +1,6 @@
 package com.romina
 
+import com.romina.combat.application.domain.service.CombatService
 import com.romina.player.application.domain.service.CreatureService
 import com.romina.player.application.domain.service.PlayerService
 import com.romina.player.infrastructure.driven.adapter.persistence.creatures.CreaturePostgresAdapter
@@ -17,10 +18,10 @@ fun Application.module() {
     val playerService = PlayerService(playerRepository)
     val creaturesRepository = CreaturePostgresAdapter()
     val creatureService = CreatureService(creaturesRepository)
-
+    val combatService = CombatService()
 
     configureSerialization(playerRepository)
     configureSockets()
     configureDatabases(environment.config)
-    configureRouting(playerService, creatureService)
+    configureRouting(playerService, creatureService, combatService)
 }

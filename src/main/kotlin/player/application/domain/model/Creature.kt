@@ -20,7 +20,7 @@ data class Creature (
     }
 
     fun applyXP(amount : Int ){
-        require(amount >= 0) {"Amount must be non-negative. You set count to $amount."}
+        require(amount >= 0) {"Amount must be non-negative. You set amount to $amount."}
 
         xp += amount
         val targetLevel = (DIFFICULTY_MODIFIER *
