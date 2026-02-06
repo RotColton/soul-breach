@@ -16,7 +16,7 @@ class PlayerPostgresAdapter : PlayerPort {
         }
 
     override suspend fun save(player : Player): UUID = dbQuery{
-        val player = PlayerDAO.new{
+        val player = PlayerDAO.new(player.id){
             name = player.name
         }
         player.id.value

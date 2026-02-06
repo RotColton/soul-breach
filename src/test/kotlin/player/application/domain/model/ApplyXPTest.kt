@@ -3,7 +3,6 @@ package com.romina.player.application.domain.model
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.UUID
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ApplyXPTest {

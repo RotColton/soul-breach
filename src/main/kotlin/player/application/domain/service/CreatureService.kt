@@ -22,7 +22,7 @@ class CreatureService(
             name = command.creatureName,
             owner = command.playerId,
             creatureClass = creatureClass.className,
-            level = 0,
+            level = 1,
             xp = 0,
             attributes = creatureClass.defaultAttributes
         )

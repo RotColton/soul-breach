@@ -109,8 +109,23 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateCombatRequest'
         required: true
-
-
+      responses:
+        '200':
+          description: Combat initialized successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CombatResponse'
+        '404':
+          description: Player not found
+        '400':
+          description: Invalid UUID format
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Player:
@@ -208,15 +223,15 @@ components:
         combatId:
           type: string
           format: uuid
-        status:
+        state:
           type: string
           enum: [IN_PROGRESS, FINISHED]
         turnOrder:
           type: array
           items:
             type: string
-          description: "List of creature IDs sorted by Speed (Requirement 3.2.1)"
-        creaturesState:
+          description: "List of creature IDs sorted by Speed"
+        playersCreatures:
           type: array
           items:
             $ref: '#/components/schemas/Creature'

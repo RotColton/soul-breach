@@ -11,7 +11,7 @@ data class PlayerDTO(
 )
 
 fun Player.toDTO() = PlayerDTO(
-    playerId = playerId.toString(),
+    playerId = id.toString(),
     name = name,
     creatures = creatures.map{ it.toDTO() }
 )

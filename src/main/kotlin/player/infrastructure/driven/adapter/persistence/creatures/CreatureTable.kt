@@ -12,6 +12,4 @@ object CreatureTable : UUIDTable("creatures") {
     val hp = integer("hp")
     val attack = integer("attack")
     val speed = integer("speed")
-
-
 }

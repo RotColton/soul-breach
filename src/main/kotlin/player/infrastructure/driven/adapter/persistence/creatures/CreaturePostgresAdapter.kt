@@ -12,14 +12,12 @@ import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 import java.util.UUID
 
 class CreaturePostgresAdapter : CreaturePort{
-
     private suspend fun <T> dbQuery(block: suspend () -> T): T =
         withContext(Dispatchers.IO) {
             suspendTransaction { block() }
         }
 
-    override suspend fun save(creature: Creature
-    ): Player = dbQuery{
+    override suspend fun save(creature: Creature): Player = dbQuery{
         val playerId = creature.owner
         val playerDAO = PlayerDAO.findById(playerId)
             ?: throw NoSuchElementException("Could not find player with ID: $playerId")

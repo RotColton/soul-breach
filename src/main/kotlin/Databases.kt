@@ -1,5 +1,6 @@
 package com.romina
 
+import com.romina.combat.infrastructure.driven.adapter.persistence.combat.CombatTable
 import com.romina.player.infrastructure.driven.adapter.persistence.creatures.CreatureTable
 import com.romina.player.infrastructure.driven.adapter.persistence.players.PlayerTable
 import io.ktor.server.application.*
@@ -20,6 +21,6 @@ fun Application.configureDatabases(config: ApplicationConfig) {
     )
 
     transaction(database) {
-        SchemaUtils.create(PlayerTable, CreatureTable)
+        SchemaUtils.create(PlayerTable, CreatureTable, CombatTable)
     }
 }
