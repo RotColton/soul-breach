@@ -226,6 +226,9 @@ components:
         state:
           type: string
           enum: [IN_PROGRESS, FINISHED]
+        currentTurn:
+          type: string
+          format: uuid
         turnOrder:
           type: array
           items:

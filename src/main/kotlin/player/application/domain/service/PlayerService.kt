@@ -8,7 +8,6 @@ import com.romina.player.application.domain.ports.`in`.PlayerDetailsQuery
 import com.romina.player.application.domain.ports.out.PlayerPort
 import java.util.UUID
 
-
 class PlayerService(
     private val playerPort: PlayerPort,
 

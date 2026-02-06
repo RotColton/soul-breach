@@ -2,7 +2,6 @@ package com.romina.player.infrastructure.driven.adapter.persistence.players
 
 import com.romina.player.application.domain.model.Player
 import com.romina.player.application.domain.ports.out.PlayerPort
-import com.romina.player.infrastructure.driven.adapter.persistence.mapper.daoToPlayer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
@@ -25,7 +24,7 @@ class PlayerPostgresAdapter : PlayerPort {
     override suspend fun findById(id : UUID): Player = dbQuery{
         val playerDAO = PlayerDAO.findById(id)
             ?: throw NoSuchElementException("Could not find player with ID: $id")
-        daoToPlayer(playerDAO)
+        playerDAO.toModel()
     }
 
 }

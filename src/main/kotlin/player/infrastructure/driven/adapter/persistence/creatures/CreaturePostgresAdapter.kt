@@ -3,8 +3,6 @@ package com.romina.player.infrastructure.driven.adapter.persistence.creatures
 import com.romina.player.application.domain.model.Creature
 import com.romina.player.application.domain.model.Player
 import com.romina.player.application.domain.ports.out.CreaturePort
-import com.romina.player.infrastructure.driven.adapter.persistence.mapper.daoToCreature
-import com.romina.player.infrastructure.driven.adapter.persistence.mapper.daoToPlayer
 import com.romina.player.infrastructure.driven.adapter.persistence.players.PlayerDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -22,7 +20,7 @@ class CreaturePostgresAdapter : CreaturePort{
         val playerDAO = PlayerDAO.findById(playerId)
             ?: throw NoSuchElementException("Could not find player with ID: $playerId")
 
-        CreatureDAO.new {
+        CreatureDAO.new(creature.id) {
             name = creature.name
             owner = playerDAO
             creatureClass = creature.creatureClass.name
@@ -36,13 +34,13 @@ class CreaturePostgresAdapter : CreaturePort{
         val playerDAOUpdated = PlayerDAO.findById(playerId)
             ?: throw NoSuchElementException("Could not find player with ID: $playerId")
 
-        daoToPlayer(playerDAOUpdated)
+        playerDAOUpdated.toModel()
     }
 
     override suspend fun findById(creatureId: UUID): Creature = dbQuery{
         val creatureDAO = CreatureDAO.findById(creatureId)
             ?: throw NoSuchElementException("Creature not found: $creatureId")
-        daoToCreature(creatureDAO)
+        creatureDAO.toModel()
     }
 
     override suspend fun update(creature : Creature): Creature = dbQuery{
@@ -55,7 +53,7 @@ class CreaturePostgresAdapter : CreaturePort{
             attack = creature.attributes.attack
             speed = creature.attributes.speed
         }
-        daoToCreature(creatureDAO)
+        creatureDAO.toModel()
     }
 
 }

@@ -1,4 +1,4 @@
 package com.romina.combat.application.domain.exception
 
-class EmptyArmyException (string: String) : Exception() {
+class EmptyArmyException (msg: String) : Exception() {
 }
