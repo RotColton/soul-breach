@@ -2,7 +2,7 @@ package com.romina.player.infrastructure.driven.adapter.persistence.creatures
 
 import com.romina.player.application.domain.model.Creature
 import com.romina.player.application.domain.model.Player
-import com.romina.player.application.domain.ports.out.CreaturePort
+import com.romina.player.application.ports.out.CreaturePort
 import com.romina.player.infrastructure.driven.adapter.persistence.players.PlayerDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

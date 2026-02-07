@@ -1,12 +1,12 @@
 package com.romina
 
-import com.romina.combat.application.domain.`in`.CombatDetailsCommand
-import com.romina.combat.application.domain.`in`.ExecuteTurnCommand
+import com.romina.combat.application.ports.`in`.CombatDetailsCommand
+import com.romina.combat.application.ports.`in`.ExecuteTurnCommand
 import com.romina.combat.application.domain.model.CombatState
-import com.romina.combat.application.domain.service.CombatActionsService
-import com.romina.combat.infrastructure.drive.event.CombatEvent
-import com.romina.combat.infrastructure.drive.request.CombatActionRequest
-import com.romina.combat.infrastructure.drive.response.toResponse
+import com.romina.combat.application.service.CombatActionsService
+import com.romina.combat.infrastructure.driver.event.CombatEvent
+import com.romina.combat.infrastructure.driver.request.CombatActionRequest
+import com.romina.combat.infrastructure.driver.response.toResponse
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.server.application.*
 import io.ktor.server.routing.*

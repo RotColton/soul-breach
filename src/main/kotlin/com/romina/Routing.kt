@@ -1,10 +1,10 @@
 package com.romina
 
-import com.romina.combat.application.domain.service.CreateCombatService
-import com.romina.combat.infrastructure.drive.adapter.rest.routes.combatRoutes
-import com.romina.player.application.domain.service.CreatureService
-import com.romina.player.application.domain.service.PlayerService
-import com.romina.player.infrastructure.drive.adapter.rest.routes.playerRoutes
+import com.romina.combat.application.service.CreateCombatService
+import com.romina.combat.infrastructure.driver.adapter.rest.routes.combatRoutes
+import com.romina.player.application.service.CreatureService
+import com.romina.player.application.service.PlayerService
+import com.romina.player.infrastructure.driver.adapter.rest.routes.playerRoutes
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.routing.*

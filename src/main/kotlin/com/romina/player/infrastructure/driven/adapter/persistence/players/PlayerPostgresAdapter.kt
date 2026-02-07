@@ -1,7 +1,7 @@
 package com.romina.player.infrastructure.driven.adapter.persistence.players
 
 import com.romina.player.application.domain.model.Player
-import com.romina.player.application.domain.ports.out.PlayerPort
+import com.romina.player.application.ports.out.PlayerPort
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction

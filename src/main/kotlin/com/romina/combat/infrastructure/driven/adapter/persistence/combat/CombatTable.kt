@@ -10,5 +10,5 @@ object CombatTable : UUIDTable("combats") {
     val turnOrder = text("turn_order")
     val currentTurn = varchar("current_turn", 36)
     val state = enumerationByName("state", 20, CombatState::class)
-    val winnerId = varchar("winner", 36).nullable()
+    val winner = varchar("winner", 36)
 }

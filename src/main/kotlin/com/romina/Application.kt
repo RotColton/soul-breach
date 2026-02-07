@@ -1,10 +1,10 @@
 package com.romina
 
-import com.romina.combat.application.domain.service.CombatActionsService
-import com.romina.combat.application.domain.service.CreateCombatService
+import com.romina.combat.application.service.CombatActionsService
+import com.romina.combat.application.service.CreateCombatService
 import com.romina.combat.infrastructure.driven.adapter.persistence.combat.CombatPostgresAdapter
-import com.romina.player.application.domain.service.CreatureService
-import com.romina.player.application.domain.service.PlayerService
+import com.romina.player.application.service.CreatureService
+import com.romina.player.application.service.PlayerService
 import com.romina.player.infrastructure.driven.adapter.persistence.creatures.CreaturePostgresAdapter
 import com.romina.player.infrastructure.driven.adapter.persistence.players.PlayerPostgresAdapter
 import io.ktor.server.application.*

@@ -1,25 +1,32 @@
 package com.romina.combat.application.domain.model
 
-import com.romina.combat.application.domain.exception.EmptyArmyException
-import com.romina.combat.application.domain.exception.InvalidTurnException
+import com.romina.combat.application.domain.model.exception.EmptyArmyException
 import com.romina.player.application.domain.model.Creature
 import com.romina.player.application.domain.model.Player
 import com.romina.combat.application.domain.event.CombatDomainEvent
-import com.romina.combat.application.domain.exception.TargetIsAlreadyDeadException
+import com.romina.combat.application.domain.model.exception.AttackerNotFoundException
+import com.romina.combat.application.domain.model.exception.InvalidTurnException
+import com.romina.combat.application.domain.model.exception.TargetNotFoundException
 import java.util.UUID
 enum class CombatState{
     ONGOING,
     FINISHED
 }
 
+enum class Winner{
+    PLAYER,
+    ENEMY,
+    NULL
+}
+
 data class Combat(
-    val id : UUID,
+    val id : UUID = UUID.randomUUID(),
     val player1 : Player,
     val player2 : Player,
     var turnOrder: MutableList<UUID>,
     var currentTurn : UUID,
     var state : CombatState,
-    var winner : String?
+    var winner: Winner = Winner.NULL
 ){
     private val _events = mutableListOf<CombatDomainEvent>()
     val events: List<CombatDomainEvent> get() = _events.toList()
@@ -32,7 +39,7 @@ data class Combat(
         ): MutableList<UUID> {
 
             if (playerCreatures.isEmpty() || enemies.isEmpty()){
-                throw EmptyArmyException("Cannot start a battle without creatures")
+                throw EmptyArmyException()
             }
 
             val sortedPlayers = playerCreatures.sortedByDescending { it.attributes.speed }
@@ -42,12 +49,8 @@ data class Combat(
             val maxSize = maxOf(sortedPlayers.size, sortedEnemies.size)
 
             for (i in 0 until maxSize) {
-                if (i < sortedPlayers.size) {
-                    turnOrder.add(sortedPlayers[i].id)
-                }
-                if (i < sortedEnemies.size) {
-                    turnOrder.add(sortedEnemies[i].id)
-                }
+                if (i < sortedPlayers.size) turnOrder.add(sortedPlayers[i].id)
+                if (i < sortedEnemies.size) turnOrder.add(sortedEnemies[i].id)
             }
 
             return turnOrder
@@ -56,19 +59,19 @@ data class Combat(
 
     fun attack(targetId : UUID, activeId : UUID){
         val active = findCreature(activeId)
-            ?: throw IllegalArgumentException("Attacker $activeId} not found or dead")
+            ?: throw AttackerNotFoundException()
         val target = findCreature(targetId)
-            ?: throw IllegalArgumentException("Target ${targetId} not found or dead")
+            ?: throw TargetNotFoundException()
 
         target.receiveDamage(active.attributes.attack)
         if(target.attributes.hp <= 0) killCreature(target)
     }
 
-    fun findCreature(id : UUID) : Creature? = allCreatures().find { creature ->  creature.id == id}
+    private fun findCreature(id : UUID) : Creature? = allCreatures().find { creature ->  creature.id == id}
 
     fun allCreatures(): List<Creature> = player1.creatures + player2.creatures
 
-    fun killCreature(creature: Creature){
+    private fun killCreature(creature: Creature){
         val ownerId = if (player1.creatures.contains(creature)) player1.id else player2.id
 
         val removed = player1.creatures.remove(creature) || player2.creatures.remove(creature)
@@ -85,18 +88,17 @@ data class Combat(
     }
     fun validateTurn(activeId : UUID){
         if(activeId != currentTurn) {
-            throw InvalidTurnException("It is not creature ${activeId}'s turn.")
+            throw InvalidTurnException()
         }
     }
     fun checkWinner() {
         val p1Defeated = player1.creatures.none { it.attributes.hp > 0 }
         val p2Defeated = player2.creatures.none { it.attributes.hp > 0 }
         winner = when{
-            p1Defeated -> "ENEMY"
-            p2Defeated -> "PLAYER"
-            else -> { null }
+            p1Defeated -> Winner.ENEMY
+            p2Defeated -> Winner.PLAYER
+            else -> Winner.NULL
         }
-        if (winner != null) state = CombatState.FINISHED
+        if (winner != Winner.NULL) state = CombatState.FINISHED
     }
-
 }

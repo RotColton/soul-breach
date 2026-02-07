@@ -9,8 +9,8 @@ data class Creature (
     val name: String,
     val owner: UUID,
     val creatureClass: CreatureClassName,
-    var level: Int,
-    var xp: Int,
+    var level: Int = 1,
+    var xp: Int = 5,
     var attributes: ElementalsAttributes
 ){
     companion object {

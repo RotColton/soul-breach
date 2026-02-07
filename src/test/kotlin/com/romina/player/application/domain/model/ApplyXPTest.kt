@@ -2,9 +2,9 @@ package com.romina.com.romina.player.application.domain.model
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import player.application.domain.model.Creature
-import player.application.domain.model.CreatureClass
-import player.application.domain.model.CreatureClassFactory
+import com.romina.player.application.domain.model.Creature
+import com.romina.player.application.domain.model.CreatureClass
+import com.romina.player.application.domain.model.CreatureClassFactory
 import java.util.UUID
 import kotlin.test.assertTrue
 

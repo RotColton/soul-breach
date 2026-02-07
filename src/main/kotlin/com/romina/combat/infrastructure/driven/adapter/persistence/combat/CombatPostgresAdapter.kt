@@ -1,7 +1,7 @@
 package com.romina.combat.infrastructure.driven.adapter.persistence.combat
 
 import com.romina.combat.application.domain.model.Combat
-import com.romina.combat.application.domain.out.CombatPort
+import com.romina.combat.application.ports.out.CombatPort
 import com.romina.player.infrastructure.driven.adapter.persistence.players.PlayerDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,7 +27,7 @@ class CombatPostgresAdapter : CombatPort {
             turnOrderRaw = combat.turnOrder.joinToString(",") { it.toString() }
             currentTurnId = combat.currentTurn.toString()
             state = combat.state
-            winnerId = combat.winner
+            winner = combat.winner.name
         }
         combatDAO.toModel()
     }
@@ -53,7 +53,7 @@ class CombatPostgresAdapter : CombatPort {
             turnOrderRaw = combat.turnOrder.joinToString(",") { it.toString() }
             currentTurnId = combat.currentTurn.toString()
             state = combat.state
-            winnerId = combat.winner
+            winner = combat.winner.name
         }
         combatDAO.toModel()
     }
