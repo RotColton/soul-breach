@@ -11,17 +11,17 @@ sealed class CreatureClass {
 //TODO: refactor magic numbers
 object Warrior : CreatureClass() {
     override val className = CreatureClassName.WARRIOR
-    override val defaultAttributes = ElementalsAttributes(10, 30, 25)
+    override val defaultAttributes = ElementalsAttributes(10, 3, 25)
 }
 
 object Defender : CreatureClass() {
     override val className  = CreatureClassName.DEFENDER
-    override val defaultAttributes = ElementalsAttributes(20, 25, 25)
+    override val defaultAttributes = ElementalsAttributes(20, 2, 25)
 }
 
 object Enchanter : CreatureClass() {
     override val className  = CreatureClassName.ENCHANTER
-    override val defaultAttributes = ElementalsAttributes(10, 40, 15)
+    override val defaultAttributes = ElementalsAttributes(10, 4, 15)
 }
 
 object CreatureClassFactory {

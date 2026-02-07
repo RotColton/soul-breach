@@ -6,21 +6,23 @@ import com.romina.player.infrastructure.drive.response.dto.CreatureDTO
 import com.romina.player.infrastructure.drive.response.dto.toDTO
 import kotlinx.serialization.Serializable
 
+
 @Serializable
 data class StateCombatResponse(
-    val combatID: String,
-    val turnOrder: List<String>,
-    val state: CombatState,
-    val currentTurn: String,
-    val creaturesP1: MutableList<CreatureDTO>,
-    val creaturesP2: MutableList<CreatureDTO>,
-)
+    val type : String,
+    val combatId : String,
+    val creatures : List<CreatureDTO>,
+    val currentTurnCreatureId : String,
+    val status : CombatState,
+    val winner : String?
+) {
+}
 
-fun Combat.toResponse() = StateCombatResponse(
-    combatID = id.toString(),
-    turnOrder = turnOrder.map { it.toString() },
-    state = state,
-    currentTurn = currentTurn.toString(),
-    creaturesP1 = player1.creatures.map{ it.toDTO() } as MutableList<CreatureDTO>,
-    creaturesP2 = player2.creatures.map{ it.toDTO() } as MutableList<CreatureDTO>
+fun Combat.toResponse(type : String) : StateCombatResponse = StateCombatResponse(
+    type = type,
+    combatId = id.toString(),
+    creatures = allCreatures().map{ it.toDTO() },
+    currentTurnCreatureId = currentTurn.toString(),
+    state,
+    winner = winner
 )

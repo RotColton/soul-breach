@@ -53,4 +53,9 @@ data class Creature (
 
         return currentValue + increase
     }
+
+    fun receiveDamage(damagePoint: Int){
+        if(damagePoint >= attributes.hp) this.attributes.hp = 0
+        else this.attributes.hp -= damagePoint
+    }
 }

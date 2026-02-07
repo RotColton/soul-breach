@@ -17,6 +17,6 @@ fun Route.createRoute(useCase : CreateCombatUseCase){
         val combat = useCase.createCombatWithDefaultEnemy(
             CreateCombatCommand(UUID.fromString(body.playerId)))
 
-        call.respond(HttpStatusCode.Created, combat.toResponse())
+        call.respond(HttpStatusCode.Created, combat.toResponse("STATE_STORAGE"))
     }
 }

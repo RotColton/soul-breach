@@ -20,7 +20,7 @@ class CombatDAO (id : EntityID<UUID>) : UUIDEntity(id) {
         id = this.id.value,
         player1 = this.player1.toModel(),
         player2 = this.player2.toModel(),
-        turnOrder = turnOrderRawToList(this.turnOrderRaw),
+        turnOrder = turnOrderRawToList(this.turnOrderRaw) as MutableList<UUID>,
         currentTurn = UUID.fromString(this.currentTurnId),
         state = this.state,
         winner = this.winnerId,

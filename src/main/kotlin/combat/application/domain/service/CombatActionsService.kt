@@ -17,17 +17,22 @@ class CombatActionsService(
         return port.getById(command.combatId)
     }
 
-    override fun executeTurn(command: ExecuteTurnCommand) {
+    override fun executeTurn(command: ExecuteTurnCommand) : Combat{
         //validar si es el turno del atacante
-        if(command.activeId != command.currentCombat.currentTurn) {
-            throw InvalidTurnException("It is not creature $command.activeId's turn.")
-        }
+        val combat = command.currentCombat
+        combat.validateTurn(command.activeId)
+
         //atacar
         //dañar
         //eliminar creatura si muere
+        combat.attack(command.targetId, command.activeId)
+
         //avanzar el turno
+        combat.nextTurn()
         //detectar final del combate
+
         //devolver rta
+        return combat
     }
 
 }

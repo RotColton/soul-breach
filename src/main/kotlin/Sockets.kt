@@ -33,21 +33,23 @@ fun Application.configureSockets(combatActionsService : CombatActionsService) {
                 ?: return@webSocket close(CloseReason(CloseReason.Codes.VIOLATED_POLICY, "Missing Player ID"))
 
             try {
-                val currentCombat = combatActionsService.getCombat(CombatDetailsCommand(combatId))
-                sendSerialized<CombatEvent>(CombatEvent.StateUpdate(currentCombat.toResponse()))
+                var currentCombat = combatActionsService.getCombat(CombatDetailsCommand(combatId))
+                sendSerialized<CombatEvent>(CombatEvent.StateUpdate(
+                    currentCombat.toResponse("STATE_STORAGE")))
 
-                for (frame in incoming) {
-                    val actionRequest = receiveDeserialized<CombatActionRequest>()
+                val actionRequest = receiveDeserialized<CombatActionRequest>()
 
-                    if (actionRequest.type == "ACTION") {
-                        combatActionsService.executeTurn(
-                            ExecuteTurnCommand(
-                                actionRequest.type,
-                                UUID.fromString(actionRequest.activeId),
-                                UUID.fromString(actionRequest.targetId),
-                                currentCombat = currentCombat
-                            ))
-                    }
+                if (actionRequest.type == "ACTION") {
+                    currentCombat = combatActionsService.executeTurn(
+                        ExecuteTurnCommand(
+                            actionRequest.type,
+                            UUID.fromString(actionRequest.activeId),
+                            UUID.fromString(actionRequest.targetId),
+                            currentCombat = currentCombat
+                        )
+                    )
+                    sendSerialized<CombatEvent>(CombatEvent.StateUpdate(
+                        currentCombat.toResponse("STATE_UPDATE")))
                 }
 
             } catch (e: Exception) {
@@ -55,8 +57,6 @@ fun Application.configureSockets(combatActionsService : CombatActionsService) {
             } finally {
                 // Limpieza al desconectarse
             }
-
-
         }
     }
 }

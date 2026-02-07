@@ -1,6 +1,7 @@
 package com.romina.combat.application.domain.model
 
 import com.romina.combat.application.domain.exception.EmptyArmyException
+import com.romina.combat.application.domain.exception.InvalidTurnException
 import com.romina.player.application.domain.model.Creature
 import com.romina.player.application.domain.model.Player
 import java.util.UUID
@@ -13,7 +14,7 @@ data class Combat(
     val id : UUID,
     val player1 : Player,
     val player2 : Player,
-    val turnOrder: List<UUID>,
+    val turnOrder: MutableList<UUID>,
     var currentTurn : UUID,
     var state : CombatState,
     var winner : String?
@@ -22,7 +23,7 @@ data class Combat(
         fun determineTurnOrderBySpeed(
             playerCreatures: List<Creature>,
             enemies: List<Creature>
-        ): List<UUID> {
+        ): MutableList<UUID> {
 
             if (playerCreatures.isEmpty()){
                 throw EmptyArmyException("Cannot start a battle without creatures in your team")
@@ -44,6 +45,33 @@ data class Combat(
             }
 
             return turnOrder
+        }
+    }
+
+    fun attack(targetId : UUID, activeId : UUID){
+        val active = findCreature(activeId)
+            ?: throw IllegalArgumentException("Attacker $activeId} not found")
+        val target = findCreature(targetId)
+            ?: throw IllegalArgumentException("Target ${targetId} not found")
+
+        target.receiveDamage(active.attributes.attack)
+        if(target.attributes.hp <= 0) killCreature(target)
+    }
+
+    fun findCreature(id : UUID) : Creature? = allCreatures().find { creature ->  creature.id == id}
+
+    fun allCreatures(): List<Creature> = player1.creatures + player2.creatures
+
+    fun killCreature(creature: Creature){
+        turnOrder.remove(creature.id)
+    }
+    fun nextTurn(){
+        val index = turnOrder.indexOf(currentTurn)
+        currentTurn = turnOrder[index+1]
+    }
+    fun validateTurn(activeId : UUID){
+        if(activeId != currentTurn) {
+            throw InvalidTurnException("It is not creature ${activeId}'s turn.")
         }
     }
 

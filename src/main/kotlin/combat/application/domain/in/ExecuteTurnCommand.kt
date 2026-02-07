@@ -6,6 +6,6 @@ import java.util.UUID
 data class ExecuteTurnCommand(
     val actio : String,
     val activeId : UUID,
-    val tagetId : UUID,
+    val targetId : UUID,
     val currentCombat : Combat
 )
