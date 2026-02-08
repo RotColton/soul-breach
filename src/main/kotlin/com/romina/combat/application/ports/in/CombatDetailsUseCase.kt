@@ -1,7 +1,12 @@
 package com.romina.combat.application.ports.`in`
 
 import com.romina.combat.application.domain.model.Combat
+import java.util.UUID
 
 interface CombatDetailsUseCase {
-   suspend fun getCombat(command : CombatDetailsCommand) : Combat
+    data class Command(
+        val combatId: UUID
+    )
+
+    suspend fun combatDetails(command: Command): Combat
 }

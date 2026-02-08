@@ -1,8 +1,8 @@
 package com.romina
 
-import com.romina.combat.application.ports.`in`.CombatDetailsCommand
-import com.romina.combat.application.ports.`in`.ExecuteTurnCommand
 import com.romina.combat.application.domain.model.CombatState
+import com.romina.combat.application.ports.`in`.CombatActionUseCase
+import com.romina.combat.application.ports.`in`.CombatDetailsUseCase
 import com.romina.combat.application.service.CombatActionsService
 import com.romina.combat.infrastructure.driver.event.CombatEvent
 import com.romina.combat.infrastructure.driver.request.CombatActionRequest
@@ -34,7 +34,8 @@ fun Application.configureSockets(combatActionsService : CombatActionsService) {
                 ?: return@webSocket close(CloseReason(CloseReason.Codes.VIOLATED_POLICY, "Missing Player ID"))
 
             try {
-                var currentCombat = combatActionsService.getCombat(CombatDetailsCommand(combatId))
+                var currentCombat = combatActionsService.combatDetails(
+                    CombatDetailsUseCase.Command(combatId))
 
                 do{
                     sendSerialized<CombatEvent>(
@@ -52,7 +53,7 @@ fun Application.configureSockets(combatActionsService : CombatActionsService) {
                         val actionRequest = receiveDeserialized<CombatActionRequest>()
                         if (actionRequest.type == "ACTION") {
                             currentCombat = combatActionsService.executeTurn(
-                                ExecuteTurnCommand(
+                                CombatActionUseCase.Command(
                                     actionRequest.type,
                                     UUID.fromString(actionRequest.activeId),
                                     UUID.fromString(actionRequest.targetId),

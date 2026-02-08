@@ -1,13 +1,11 @@
 package com.romina.combat.application.service
 
 import com.romina.combat.application.domain.event.CombatDomainEvent
-import com.romina.combat.application.ports.`in`.CombatDetailsCommand
-import com.romina.combat.application.ports.`in`.CombatDetailsUseCase
-import com.romina.combat.application.ports.`in`.ExecuteCombatActionUseCase
-import com.romina.combat.application.ports.`in`.ExecuteTurnCommand
+import com.romina.combat.application.ports.`in`.CombatActionUseCase
 import com.romina.combat.application.domain.model.Combat
 import com.romina.combat.application.domain.model.CombatState
 import com.romina.combat.application.domain.model.Winner
+import com.romina.combat.application.ports.`in`.CombatDetailsUseCase
 import com.romina.combat.application.ports.out.CombatPort
 import com.romina.player.application.ports.out.CreaturePort
 
@@ -16,14 +14,9 @@ class CombatActionsService(
     private val combatPort : CombatPort,
     private val creaturePort : CreaturePort,
 
-    ) : CombatDetailsUseCase,
-    ExecuteCombatActionUseCase {
+    ) : CombatActionUseCase, CombatDetailsUseCase {
 
-    override suspend fun getCombat(command: CombatDetailsCommand): Combat {
-        return combatPort.getById(command.combatId)
-    }
-
-    override suspend fun executeTurn(command: ExecuteTurnCommand) : Combat{
+    override suspend fun executeTurn(command: CombatActionUseCase.Command) : Combat{
         val combat = command.currentCombat
 
         combat.validateTurn(command.activeId)
@@ -53,5 +46,10 @@ class CombatActionsService(
         combat.nextTurn()
         return combat
     }
+
+    override suspend fun combatDetails(command: CombatDetailsUseCase.Command): Combat {
+        return combatPort.getById(command.combatId)
+    }
+
 
 }

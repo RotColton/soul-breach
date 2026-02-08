@@ -1,6 +1,5 @@
 package com.romina.combat.application.service
 
-import com.romina.combat.application.ports.`in`.CreateCombatCommand
 import com.romina.combat.application.ports.`in`.CreateCombatUseCase
 import com.romina.combat.application.domain.model.Combat
 import com.romina.combat.application.domain.model.CombatState
@@ -19,7 +18,7 @@ class CreateCombatService(
     private val creaturePort : CreaturePort,
 ) : CreateCombatUseCase {
 
-    override suspend fun createCombatWithDefaultEnemy(createCombatCommand: CreateCombatCommand): Combat {
+    override suspend fun createCombatWithDefaultEnemy(createCombatCommand: CreateCombatUseCase.Command): Combat {
         val player = playerPort.findById(createCombatCommand.playerId)
         val enemy = Player(name = "Bastard-AI")
         generateDefaultEnemyCreatures(enemy)

@@ -1,6 +1,6 @@
 package com.romina.combat.infrastructure.driver.adapter.rest.routes
 
-import com.romina.combat.application.ports.`in`.CreateCombatCommand
+
 import com.romina.combat.application.ports.`in`.CreateCombatUseCase
 import com.romina.combat.infrastructure.driver.request.CreateCombatRequest
 import com.romina.combat.infrastructure.driver.response.toResponse
@@ -15,7 +15,7 @@ fun Route.createRoute(useCase : CreateCombatUseCase){
     post("/combats"){
         val body = call.receive<CreateCombatRequest>()
         val combat = useCase.createCombatWithDefaultEnemy(
-            CreateCombatCommand(UUID.fromString(body.playerId)))
+            CreateCombatUseCase.Command(UUID.fromString(body.playerId)))
 
         call.respond(HttpStatusCode.Created, combat.toResponse("STATE_STORAGE"))
     }
