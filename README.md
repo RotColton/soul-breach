@@ -9,41 +9,52 @@ Scalable backend for the **Soul Breach** universe, a creature-collection RPG. Bu
 * **Framework:** [Ktor 3.4.0](https://ktor.io/)
 * **Documentation:** [Swagger UI / OpenAPI](https://swagger.io/)
 * **Testing:** [JUnit 5](https://junit.org/junit5/)
+* **Database:** [PostgreSQL](https://www.postgresql.org/) (by Docker)
+* **ORM:** [Exposed](https://jetbrains.github.io/Exposed/)
 
 ---
 
-## 🏗️ Project Architecture
+## Project Architecture
 
 The project is organized into layers to ensure decoupling and testability:
 
 * **`application`**: Contains the business logic and orchestration.
   * **`domain`**: The heart of the application.
     * **`model`**: Domain entities and Value Objects.
-    * **`port`**: Inbound (Use Cases) and Outbound (Repository interfaces) ports.
-    * **`service`**: Implementation of the business logic.
+  * **`port`**: Inbound (Use Cases) and Outbound (Repository interfaces) ports.
+  * **`service`**: Implementation of the business logic.
 * **`infrastructure`**: Technical implementations and low-level details.
-  * **`adapters/driver/rest`**: REST routes organized by domain features.
-  * **`adapters/driven/persistence`**: Persistence implementations (Repositories).
-  * **`adapters/dto`**: Data Transfer Objects for internal/external communication.
+  * **`driver/adapter/rest`**: REST routes organized by domain features.
+  * **`driven/adapter/persistence`**: Persistence implementations (Repositories).
+  * **`dto`**: Data Transfer Objects for internal/external communication.
 
 ---
 
-## 📁 Package Structure (Feature-Driven)
-
-```text
-src/main/kotlin/com/soulbreach/
-├── application/                         
-│   ├── domain/            
-│       ├── model/             # Domain Entities (e.g., Player, Creature)
-│       ├── port/              # UseCase interfaces & Repository Ports
-│       ├── service/           # Application logic implementation
-├── infrastructure/        
-│   ├── adapters/
-│       ├── dto/               # Request/Response DTOs & Commands
-│       ├── driver/rest/       # Domain-grouped routes (e.g., player, combat)
-│       └── driven/persistence # Persistence adapters (InMemory, SQL)
+## Package Structure (Feature-Driven)
 
 ```
+├── application/                         
+│   └── domain/
+│       ├── event                       # Domain Event
+│       └── model/                      # Aggregates and VO (e.g., Player, Creature, Combat)
+│           └──exception                # Model exceptions
+│   └── ports/                          # UseCase interfaces & Repository Ports
+│       ├── in                          # Commands & queries incoming comunication
+│       └── out                         # Outcoming comunication ports
+│   └── service                         # Application logic implementation
+├── infrastructure/        
+│   └──  driven/                        
+│       └── adapter/                    # Outcoming adapters
+│           └──  persistence            # Persistence Adapters (DAOs, Tables and Repositories)
+│       └──  driver                     # Incoming adapters
+│           ├── adapeter/rest/routes    # Agruping context routing
+│           ├── event                   # Driver events
+│           ├── request                 
+│           └── response/
+│               └── dto
+
+```
+
 ## Installation & Setup
 
 ### 1. Clone the Repository
@@ -60,6 +71,28 @@ src/main/kotlin/com/soulbreach/
 ## API Documentation (Swagger)
 - Explore and test the endpoints interactively from your browser: 👉 http://localhost:8080/swagger
 
-### Main Endpoints:
-- POST /players: Register a new player. By default, a starting creature is automatically added to the player's team upon creation.
-- POST /players/{id}/creatures: Add a creature to a player's team.
+### REST API (Management)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| **POST** | `/players` | Registers a new player. A starting creature is automatically added by default. |
+| **GET** | `/players/{id}` | Retrieves player details, including their current team and stats. |
+| **POST** | `/players/{id}/creatures` | Adds a specific creature to the player's team. |
+| **POST** | `/combats` | Initializes a new combat instance. Requires `playerId` in the request body. |
+
+### WebSockets (Real-Time Combat)
+
+Once a combat instance is created, players must connect via WebSocket to send and receive actions.
+
+**Connection URL:**
+`ws://localhost:8080/ws/combats/{combatId}?playerId={playerId}`
+
+**Action Payload (Client -> Server):**
+To perform an attack or action during an active turn, send the following JSON:
+
+```json
+{
+    "type": "ACTION",
+    "activeId": "f9347115-33c2-4cfb-b8f7-2fa91085c922",
+    "targetId": "2743271d-022f-41f4-b955-8208ac276209"
+}
