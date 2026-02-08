@@ -25,21 +25,7 @@ class CombatActionsService(
         combat.checkWinner()
 
         if(combat.state == CombatState.FINISHED){
-            combat.events.forEach { event ->
-                when (event) {
-                    is CombatDomainEvent.CreatureDied -> {
-                        creaturePort.delete(event.creatureId)
-                        // TODO: LOGGER
-                        // println("Notificando: La criatura ${event.creatureId} ha muerto.")
-                    }
-                }
-            }
-            combat.clearEvents()
-            if(combat.winner == Winner.PLAYER)
-                combat.player1.creatures.forEach { it.applyXP(100) }
-
-            combat.player1.creatures.forEach { creature -> creaturePort.update(creature) }
-
+            persistFinalState(combat)
             return combatPort.update(combat)
         }
 
@@ -51,5 +37,22 @@ class CombatActionsService(
         return combatPort.getById(command.combatId)
     }
 
+    private suspend fun persistFinalState(combat : Combat){
+        combat.events.forEach { event ->
+            when (event) {
+                is CombatDomainEvent.CreatureDied -> {
+                    creaturePort.delete(event.creatureId)
+                    // TODO: LOGGER
+                    // println("Notificando: La criatura ${event.creatureId} ha muerto.")
+                }
+            }
+        }
+        combat.clearEvents()
+
+        if(combat.winner == Winner.PLAYER)
+            combat.player1.creatures.forEach { it.applyXP(100) }
+
+        combat.player1.creatures.forEach { creature -> creaturePort.update(creature) }
+    }
 
 }

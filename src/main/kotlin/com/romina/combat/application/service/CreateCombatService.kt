@@ -21,14 +21,14 @@ class CreateCombatService(
     override suspend fun createCombatWithDefaultEnemy(createCombatCommand: CreateCombatUseCase.Command): Combat {
         val player = playerPort.findById(createCombatCommand.playerId)
         val enemy = Player(name = "Bastard-AI")
+
         generateDefaultEnemyCreatures(enemy)
+        persistEnemyState(enemy)
 
-        //TODO refactor
-        playerPort.save(enemy)
-        creaturePort.save(enemy.creatures[0])
-        creaturePort.save(enemy.creatures[1])
+        val turnOrder = Combat.determineTurnOrderBySpeed(
+            player.creatures,
+            enemy.creatures)
 
-        val turnOrder = Combat.determineTurnOrderBySpeed(player.creatures, enemy.creatures)
         val fistTurn = turnOrder.first()
 
         val combat = Combat(
@@ -65,5 +65,11 @@ class CreateCombatService(
             )
         player.creatures.add(goblin)
         player.creatures.add(smile)
+    }
+
+    suspend fun persistEnemyState(enemy : Player){
+        playerPort.save(enemy)
+        creaturePort.save(enemy.creatures[0])
+        creaturePort.save(enemy.creatures[1])
     }
 }
