@@ -50,9 +50,9 @@ class CombatActionsService(
         combat.clearEvents()
 
         if(combat.winner == Winner.PLAYER)
-            combat.player1.creatures.forEach { it.applyXP(100) }
+            combat.player.creatures.forEach { it.applyXP(100) }
 
-        combat.player1.creatures.forEach { creature -> creaturePort.update(creature) }
+        combat.player.creatures.forEach { creature -> creaturePort.update(creature) }
     }
 
 }

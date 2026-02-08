@@ -15,46 +15,45 @@ class CombatPostgresAdapter : CombatPort {
         }
 
     override suspend fun save(combat: Combat): Combat = dbQuery{
+        val p1DAO = findPlayer(combat.player.id)
+        val p2DAO = findPlayer(combat.enemy.id)
 
-        val p1DAO = PlayerDAO.findById(combat.player1.id)
-            ?: throw NoSuchElementException("Could not find player with ID: $combat.player1.id")
-        val p2DAO = PlayerDAO.findById(combat.player2.id)
-            ?: throw NoSuchElementException("Could not find player with ID: $combat.player2.id")
-
-        val combatDAO = CombatDAO.new(combat.id) {
-            player1 = p1DAO
-            player2 = p2DAO
+        CombatDAO.new(combat.id) {
+            player = p1DAO
+            enemy = p2DAO
             turnOrderRaw = combat.turnOrder.joinToString(",") { it.toString() }
             currentTurnId = combat.currentTurn.toString()
             state = combat.state
             winner = combat.winner.name
-        }
-        combatDAO.toModel()
+        }.toModel()
     }
 
     override suspend fun getById(id: UUID): Combat = dbQuery{
-        val combatDAO = CombatDAO.findById(id)
-            ?: throw NoSuchElementException("Could not find combat with ID: $id")
-        combatDAO.toModel()
+        findCombat(id).toModel()
     }
 
     override suspend fun update(combat: Combat): Combat = dbQuery{
-        val combatDAO = CombatDAO.findById(combat.id)
-            ?: throw NoSuchElementException("Could not find combat with ID: $combat.id")
-
-        val p1DAO = PlayerDAO.findById(combat.player1.id)
-            ?: throw NoSuchElementException("Could not find player with ID: $combat.player1.id")
-        val p2DAO = PlayerDAO.findById(combat.player2.id)
-            ?: throw NoSuchElementException("Could not find player with ID: $combat.player2.id")
+        val combatDAO = findCombat(combat.id)
+        val playerDAO = findPlayer(combat.player.id)
+        val enemy = findPlayer(combat.enemy.id)
 
         combatDAO.apply {
-            player1 = p1DAO
-            player2 = p2DAO
+            player = playerDAO
+            this.enemy = enemy
             turnOrderRaw = combat.turnOrder.joinToString(",") { it.toString() }
             currentTurnId = combat.currentTurn.toString()
             state = combat.state
             winner = combat.winner.name
-        }
-        combatDAO.toModel()
+        }.toModel()
     }
+
+    private suspend fun findPlayer(id : UUID) : PlayerDAO = dbQuery{
+        PlayerDAO.findById(id)
+            ?: throw NoSuchElementException("Could not find player with ID: $id")
+    }
+    private suspend fun findCombat(id : UUID) : CombatDAO = dbQuery {
+        CombatDAO.findById(id)
+            ?: throw NoSuchElementException("Could not find combat with ID: $id")
+    }
+
 }

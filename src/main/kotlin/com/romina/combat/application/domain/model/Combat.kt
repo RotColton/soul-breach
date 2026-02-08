@@ -21,8 +21,8 @@ enum class Winner{
 
 data class Combat(
     val id : UUID = UUID.randomUUID(),
-    val player1 : Player,
-    val player2 : Player,
+    val player : Player,
+    val enemy : Player,
     var turnOrder: MutableList<UUID>,
     var currentTurn : UUID,
     var state : CombatState,
@@ -69,12 +69,12 @@ data class Combat(
 
     private fun findCreature(id : UUID) : Creature? = allCreatures().find { creature ->  creature.id == id}
 
-    fun allCreatures(): List<Creature> = player1.creatures + player2.creatures
+    fun allCreatures(): List<Creature> = player.creatures + enemy.creatures
 
     private fun killCreature(creature: Creature){
-        val ownerId = if (player1.creatures.contains(creature)) player1.id else player2.id
+        val ownerId = if (player.creatures.contains(creature)) player.id else enemy.id
 
-        val removed = player1.creatures.remove(creature) || player2.creatures.remove(creature)
+        val removed = player.creatures.remove(creature) || enemy.creatures.remove(creature)
         if(removed) {
             turnOrder.remove(creature.id)
             _events.add(CombatDomainEvent.CreatureDied(creature.id, ownerId))
@@ -92,8 +92,8 @@ data class Combat(
         }
     }
     fun checkWinner() {
-        val p1Defeated = player1.creatures.none { it.attributes.hp > 0 }
-        val p2Defeated = player2.creatures.none { it.attributes.hp > 0 }
+        val p1Defeated = player.creatures.none { it.attributes.hp > 0 }
+        val p2Defeated = enemy.creatures.none { it.attributes.hp > 0 }
         winner = when{
             p1Defeated -> Winner.ENEMY
             p2Defeated -> Winner.PLAYER

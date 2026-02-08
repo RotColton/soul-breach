@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CombatDTO(
     val id : String,
-    val player1 : PlayerDTO,
-    val player2 : PlayerDTO,
+    val player : PlayerDTO,
+    val enemy : PlayerDTO,
     val turnOrder: List<String>,
     var currentTurn : String,
     var state : CombatState,

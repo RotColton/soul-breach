@@ -47,8 +47,8 @@ class CombatTest {
         val fistTurn = turnOrder.first()
 
         combat = Combat(
-            player1 = player,
-            player2 = enemy,
+            player = player,
+            enemy = enemy,
             turnOrder = turnOrder,
             currentTurn = fistTurn,
             state = CombatState.ONGOING
@@ -67,16 +67,16 @@ class CombatTest {
 
     @Test
     fun `should removal a creature if it is dead`(){
-        combat.player2.creatures[0].attributes.hp = 1;
+        combat.enemy.creatures[0].attributes.hp = 1;
         combat.attack(defender.id, warrior.id)
 
-        Assertions.assertFalse(combat.player2.creatures.contains(defender))
+        Assertions.assertFalse(combat.enemy.creatures.contains(defender))
         Assertions.assertFalse(combat.turnOrder.contains(defender.id))
     }
 
     @Test
     fun `should player wins if all enemy's creatures are dead`(){
-        combat.player2.creatures[0].attributes.hp = 1;
+        combat.enemy.creatures[0].attributes.hp = 1;
         combat.attack(defender.id, warrior.id)
         combat.checkWinner()
 
@@ -86,7 +86,7 @@ class CombatTest {
 
     @Test
     fun `should combat ends if a player wins`(){
-        combat.player2.creatures[0].attributes.hp = 1;
+        combat.enemy.creatures[0].attributes.hp = 1;
         combat.attack(defender.id, warrior.id)
         combat.checkWinner()
 

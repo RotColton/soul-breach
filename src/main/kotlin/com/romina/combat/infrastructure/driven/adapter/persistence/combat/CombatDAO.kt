@@ -10,8 +10,8 @@ import java.util.UUID
 
 class CombatDAO (id : EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<CombatDAO>(CombatTable)
-    var player1 by PlayerDAO referencedOn CombatTable.player1Id
-    var player2 by PlayerDAO referencedOn CombatTable.player2Id
+    var player by PlayerDAO referencedOn CombatTable.playerId
+    var enemy by PlayerDAO referencedOn CombatTable.enemyId
     var turnOrderRaw by CombatTable.turnOrder
     var currentTurnId by CombatTable.currentTurn
     var state by CombatTable.state
@@ -19,8 +19,8 @@ class CombatDAO (id : EntityID<UUID>) : UUIDEntity(id) {
 
     fun toModel() = Combat(
         id = this.id.value,
-        player1 = this.player1.toModel(),
-        player2 = this.player2.toModel(),
+        player = this.player.toModel(),
+        enemy = this.enemy.toModel(),
         turnOrder = turnOrderRawToList(this.turnOrderRaw) as MutableList<UUID>,
         currentTurn = UUID.fromString(this.currentTurnId),
         state = this.state,

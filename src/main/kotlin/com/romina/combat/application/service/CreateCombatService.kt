@@ -32,8 +32,8 @@ class CreateCombatService(
         val fistTurn = turnOrder.first()
 
         val combat = Combat(
-            player1 = player,
-            player2 = enemy,
+            player = player,
+            enemy = enemy,
             turnOrder = turnOrder,
             currentTurn = fistTurn,
             state = CombatState.ONGOING,
