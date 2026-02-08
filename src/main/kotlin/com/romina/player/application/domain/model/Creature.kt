@@ -18,15 +18,13 @@ data class Creature (
     }
 
     fun applyXP(amount : Int ){
-        require(amount >= 0) {"Amount must be non-negative. You set amount to $amount."}
+        require(amount >= 0) {"Amount must be non-negative or zero"}
 
         xp += amount
         val targetLevel = (DIFFICULTY_MODIFIER *
                 sqrt(xp.toDouble())).toInt() + 1
 
-        while (level < targetLevel) {
-            levelUp()
-        }
+        while (level < targetLevel) levelUp()
     }
 
     private fun levelUp() {
@@ -56,6 +54,4 @@ data class Creature (
         if(damagePoint >= attributes.hp) this.attributes.hp = 0
         else this.attributes.hp -= damagePoint
     }
-
-    fun isDead(): Boolean = attributes.hp <= 0
 }

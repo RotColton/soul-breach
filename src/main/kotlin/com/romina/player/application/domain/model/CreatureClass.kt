@@ -8,7 +8,7 @@ sealed class CreatureClass {
     abstract val defaultAttributes: ElementalsAttributes
     abstract val className : CreatureClassName
 }
-//TODO: refactor magic numbers
+
 object Warrior : CreatureClass() {
     override val className = CreatureClassName.WARRIOR
     override val defaultAttributes = ElementalsAttributes(15, 5, 30)

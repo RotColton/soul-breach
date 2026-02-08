@@ -9,6 +9,7 @@ data class AttributeDTO(
     val attack : Int,
     val speed : Int
 )
+
 fun ElementalsAttributes.toDTO() = AttributeDTO(
     hp = hp,
     attack = attack,

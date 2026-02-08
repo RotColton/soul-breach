@@ -10,5 +10,6 @@ interface CombatActionUseCase {
         val targetId : UUID,
         val currentCombat : Combat
     )
+
     suspend fun executeTurn(command : Command): Combat
 }

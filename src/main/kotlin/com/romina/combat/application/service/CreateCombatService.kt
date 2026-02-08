@@ -15,7 +15,8 @@ import java.util.UUID
 class CreateCombatService(
     private val playerPort : PlayerPort,
     private val combatPort : CombatPort,
-    private val creaturePort : CreaturePort,
+    private val creaturePort : CreaturePort
+
 ) : CreateCombatUseCase {
 
     override suspend fun createCombatWithDefaultEnemy(createCombatCommand: CreateCombatUseCase.Command): Combat {

@@ -4,13 +4,12 @@ import com.romina.player.application.domain.model.Creature
 import com.romina.player.application.domain.model.Player
 import java.util.UUID
 
-//TODO: refactor -> implement CQRS pattern at the port level
-// refactor naming ports
 interface CreaturePort {
-    suspend fun save(creature : Creature) : Player
+    suspend fun save(creature : Creature) : Creature
 
-    suspend fun findById(creatureId : UUID) : Creature
+    suspend fun findById(id : UUID) : Creature
 
     suspend fun update(creature : Creature) : Creature
+
     suspend fun delete(id : UUID)
 }

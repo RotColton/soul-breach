@@ -1,7 +1,6 @@
 package com.romina.player.infrastructure.driven.adapter.persistence.creatures
 
 import com.romina.player.application.domain.model.Creature
-import com.romina.player.application.domain.model.Player
 import com.romina.player.application.ports.out.CreaturePort
 import com.romina.player.infrastructure.driven.adapter.persistence.players.PlayerDAO
 import kotlinx.coroutines.Dispatchers
@@ -15,10 +14,9 @@ class CreaturePostgresAdapter : CreaturePort{
             suspendTransaction { block() }
         }
 
-    override suspend fun save(creature: Creature): Player = dbQuery{
+    override suspend fun save(creature: Creature): Creature = dbQuery{
         val playerId = creature.owner
-        val playerDAO = PlayerDAO.findById(playerId)
-            ?: throw NoSuchElementException("Could not find player with ID: $playerId")
+        val playerDAO = findPlayer(playerId)
 
         CreatureDAO.Companion.new(creature.id) {
             name = creature.name
@@ -29,37 +27,36 @@ class CreaturePostgresAdapter : CreaturePort{
             hp = creature.attributes.hp
             attack = creature.attributes.attack
             speed = creature.attributes.speed
-        }
-        //TODO: doble consulta?
-        val playerDAOUpdated = PlayerDAO.findById(playerId)
-            ?: throw NoSuchElementException("Could not find player with ID: $playerId")
-
-        playerDAOUpdated.toModel()
+        }.toModel()
     }
 
-    override suspend fun findById(creatureId: UUID): Creature = dbQuery{
-        val creatureDAO = CreatureDAO.findById(creatureId)
-            ?: throw NoSuchElementException("Creature not found: $creatureId")
-        creatureDAO.toModel()
+    override suspend fun findById(id: UUID): Creature = dbQuery{
+        findCreature(id).toModel()
     }
 
     override suspend fun update(creature : Creature): Creature = dbQuery{
-        val creatureDAO = CreatureDAO.findById(creature.id)
-            ?: throw NoSuchElementException("Creature not found: $creature.id")
+        val creatureDAO = findCreature(creature.id)
 
         creatureDAO.apply {
             level = creature.level
             hp = creature.attributes.hp
             attack = creature.attributes.attack
             speed = creature.attributes.speed
-        }
-        creatureDAO.toModel()
+        }.toModel()
     }
 
     override suspend fun delete(id: UUID) = dbQuery{
-        val creatureDAO = CreatureDAO.findById(id)
+        findCreature(id).delete()
+    }
+
+    private suspend fun findCreature(id : UUID) = dbQuery{
+        CreatureDAO.findById(id)
             ?: throw NoSuchElementException("Creature not found: $id")
-        creatureDAO.delete()
+    }
+
+    private suspend fun findPlayer(id : UUID) = dbQuery {
+        PlayerDAO.findById(id)
+            ?: throw NoSuchElementException("Could not find player with ID: $id")
     }
 
 }

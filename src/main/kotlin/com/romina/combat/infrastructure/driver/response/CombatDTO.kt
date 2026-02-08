@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CombatDTO(
+
     val id : String,
     val player : PlayerDTO,
     val enemy : PlayerDTO,

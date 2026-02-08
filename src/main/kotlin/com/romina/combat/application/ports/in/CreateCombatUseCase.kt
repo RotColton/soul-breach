@@ -7,5 +7,6 @@ interface CreateCombatUseCase {
     data class Command(
         val playerId : UUID
     )
+
     suspend fun createCombatWithDefaultEnemy(createCombatCommand : Command) : Combat
 }

@@ -22,7 +22,7 @@ class PlayerPostgresAdapter : PlayerPort {
     }
 
     override suspend fun findById(id : UUID): Player = dbQuery{
-        val playerDAO = PlayerDAO.Companion.findById(id)
+        val playerDAO = PlayerDAO.findById(id)
             ?: throw NoSuchElementException("Could not find player with ID: $id")
         playerDAO.toModel()
     }

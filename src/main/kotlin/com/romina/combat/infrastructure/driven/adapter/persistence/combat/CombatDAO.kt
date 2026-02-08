@@ -9,6 +9,7 @@ import org.jetbrains.exposed.v1.dao.java.UUIDEntityClass
 import java.util.UUID
 
 class CombatDAO (id : EntityID<UUID>) : UUIDEntity(id) {
+
     companion object : UUIDEntityClass<CombatDAO>(CombatTable)
     var player by PlayerDAO referencedOn CombatTable.playerId
     var enemy by PlayerDAO referencedOn CombatTable.enemyId

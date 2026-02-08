@@ -1,6 +1,5 @@
 package com.romina.player.infrastructure.driver.adapter.rest.routes
 
-import com.romina.player.application.ports.`in`.AddCreatureToPlayerCommand
 import com.romina.player.application.ports.`in`.AddCreatureToPlayerUseCase
 import com.romina.player.infrastructure.driver.response.dto.toDTO
 import com.romina.player.infrastructure.driver.request.AddCreatureRequest
@@ -18,7 +17,7 @@ fun Route.addCreatureRoute(useCase: AddCreatureToPlayerUseCase) {
         val id = UUID.fromString(idPath)
 
         val player = useCase.addCreature(
-            AddCreatureToPlayerCommand(
+            AddCreatureToPlayerUseCase.Command(
                 id,
                 body.creatureName,
                 body.creatureClass

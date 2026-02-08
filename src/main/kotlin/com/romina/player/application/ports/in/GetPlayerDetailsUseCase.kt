@@ -1,8 +1,13 @@
 package com.romina.player.application.ports.`in`
 
 import com.romina.player.application.domain.model.Player
+import java.util.UUID
 
-//TODO: rename use case for more specific business naming
 interface GetPlayerDetailsUseCase {
-    suspend fun getPlayerDetails(query : PlayerDetailsQuery) : Player
+
+    data class Query(
+        val playerId : UUID
+    )
+
+    suspend fun getPlayerDetails(query : Query) : Player
 }

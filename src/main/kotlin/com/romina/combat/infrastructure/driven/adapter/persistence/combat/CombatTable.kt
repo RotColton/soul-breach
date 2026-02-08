@@ -5,6 +5,7 @@ import com.romina.player.infrastructure.driven.adapter.persistence.players.Playe
 import org.jetbrains.exposed.v1.core.dao.id.java.UUIDTable
 
 object CombatTable : UUIDTable("combats") {
+
     val playerId = reference("player_id", PlayerTable)
     val enemyId = reference("enemy_id", PlayerTable)
     val turnOrder = text("turn_order")

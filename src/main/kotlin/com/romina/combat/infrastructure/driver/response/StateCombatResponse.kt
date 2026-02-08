@@ -6,7 +6,6 @@ import com.romina.player.infrastructure.driver.response.dto.CreatureDTO
 import com.romina.player.infrastructure.driver.response.dto.toDTO
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 data class StateCombatResponse(
     val type : String,

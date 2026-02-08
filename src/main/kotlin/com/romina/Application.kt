@@ -17,15 +17,21 @@ fun main(args: Array<String>) {
 fun Application.module() {
 
     val playerRepository = PlayerPostgresAdapter()
-    val playerService = PlayerService(playerRepository)
     val combatRepository = CombatPostgresAdapter()
     val creaturesRepository = CreaturePostgresAdapter()
-    val creatureService = CreatureService(creaturesRepository)
+
+    val playerService = PlayerService(playerRepository)
+
+    val creatureService = CreatureService(
+        creaturesRepository,
+        playerRepository)
+
     val createCombatService = CreateCombatService(
             playerRepository,
             combatRepository,
             creaturesRepository
         )
+
     val combatActionsService = CombatActionsService(
         combatRepository,
         creaturesRepository

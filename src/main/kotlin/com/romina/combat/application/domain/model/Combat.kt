@@ -8,6 +8,7 @@ import com.romina.combat.application.domain.model.exception.AttackerNotFoundExce
 import com.romina.combat.application.domain.model.exception.InvalidTurnException
 import com.romina.combat.application.domain.model.exception.TargetNotFoundException
 import java.util.UUID
+
 enum class CombatState{
     ONGOING,
     FINISHED
@@ -29,7 +30,9 @@ data class Combat(
     var winner: Winner = Winner.NULL
 ){
     private val _events = mutableListOf<CombatDomainEvent>()
+
     val events: List<CombatDomainEvent> get() = _events.toList()
+
     fun clearEvents() = _events.clear()
 
     companion object {
@@ -67,30 +70,21 @@ data class Combat(
         if(target.attributes.hp <= 0) killCreature(target)
     }
 
-    private fun findCreature(id : UUID) : Creature? = allCreatures().find { creature ->  creature.id == id}
-
     fun allCreatures(): List<Creature> = player.creatures + enemy.creatures
 
-    private fun killCreature(creature: Creature){
-        val ownerId = if (player.creatures.contains(creature)) player.id else enemy.id
-
-        val removed = player.creatures.remove(creature) || enemy.creatures.remove(creature)
-        if(removed) {
-            turnOrder.remove(creature.id)
-            _events.add(CombatDomainEvent.CreatureDied(creature.id, ownerId))
-        }
-    }
     fun nextTurn(){
         val index = turnOrder.indexOf(currentTurn)
         currentTurn =
             if (index + 1 == turnOrder.size) turnOrder[0]
             else turnOrder[index + 1]
     }
+
     fun validateTurn(activeId : UUID){
         if(activeId != currentTurn) {
             throw InvalidTurnException()
         }
     }
+
     fun checkWinner() {
         val p1Defeated = player.creatures.none { it.attributes.hp > 0 }
         val p2Defeated = enemy.creatures.none { it.attributes.hp > 0 }
@@ -101,4 +95,16 @@ data class Combat(
         }
         if (winner != Winner.NULL) state = CombatState.FINISHED
     }
+
+    private fun killCreature(creature: Creature){
+        val ownerId = if (player.creatures.contains(creature)) player.id else enemy.id
+
+        val removed = player.creatures.remove(creature) || enemy.creatures.remove(creature)
+        if(removed) {
+            turnOrder.remove(creature.id)
+            _events.add(CombatDomainEvent.CreatureDied(creature.id, ownerId))
+        }
+    }
+
+    private fun findCreature(id : UUID) : Creature? = allCreatures().find { creature ->  creature.id == id}
 }
