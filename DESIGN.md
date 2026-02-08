@@ -1,5 +1,24 @@
 # Design Documentation
 
+## Índice de Contenidos
+
+* [**1. Arquitectura: Ports & Adapters (Hexagonal)**](#1-arquitectura-ports--adapters-hexagonal)
+    * [1.1. Capas del Sistema](#11-capas-del-sistema)
+    * [1.2. Estructura de Paquetes](#12-packages-structure)
+    * [1.3. Justificación de Puertos y Adaptadores](#13-justificación-de-puertos-y-adaptadores)
+* [**2. Modelado de Dominio**](#2-modelado-de-dominio)
+    * [2.1. Entidades Principales (Creature, Attributes & Combat)](#21-entidades-principales-creature-attributes--combat)
+    * [2.2. Gestión de Turnos y Estado](#22-gestión-de-turnos-y-estado)
+    * [2.3. Decisiones de Diseño Relevantes](#23-decisiones-de-diseño-relevantes)
+* [**3. Escalabilidad y Alta Disponibilidad**](#3-escalabilidad-y-alta-disponibilidad)
+    * [3.1. Evolución de Repositorios y Particionado](#31-evolución-de-repositorios-y-particionado)
+    * [3.2. Estrategia de Caching](#32-estrategia-de-caching)
+    * [3.3. Migración a Servicios Cloud (AWS / PlayFab)](#33-migración-a-servicios-cloud-aws--playfab)
+    * [3.4. ¿Qué mantendríamos propio?](#36-qué-mantendríamos-propio)
+* [**4. Integración Futura**](#4-integración-futura)
+    * [4.1. PlayFab como Puerto Externo](#41-playfab-como-puerto-externo)
+    * [4.2. Event Bus (AWS SNS / EventBridge)](#42-event-bus-aws-sns--eventbridge)
+
 ## 1. Arquitectura: Ports & Adapters (Hexagonal)
 Este proyecto utiliza una arquitectura de Puertos y Adaptadores orientada al dominio. 
 El objetivo principal es aislar la lógica de negocio (el "núcleo") de las tecnologías externas (bases de datos, frameworks web, etc.).
@@ -24,7 +43,7 @@ El objetivo principal es aislar la lógica de negocio (el "núcleo") de las tecn
 
 ---
 
-**Packages Structure:**
+### 1.2 Packages Structure
 
 ```
 ├── application/                         
