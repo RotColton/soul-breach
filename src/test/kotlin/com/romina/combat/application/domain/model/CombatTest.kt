@@ -1,4 +1,4 @@
-package com.romina.com.romina.player.combat.application.domain.model
+package com.romina.com.romina.combat.application.domain.model
 
 import com.romina.combat.application.domain.model.Combat
 import com.romina.combat.application.domain.model.CombatState
